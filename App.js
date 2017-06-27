@@ -31,12 +31,39 @@ const ITEMS = [
   }
 ]
 
+const API_ENDPOINT = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search';
+
 export default class App extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      items : [],
+      buscando : false
+    };
+  }
+
+  onSearchSubmit(palavraChave){
+    const query = `?q=${palavraChave}&mkt=pt-br`;
+
+    this.setState({ buscando : true });
+
+    fetch(`${API_ENDPOINT}${query}`, {
+      headers: {
+        'Ocp-Apim-Subscription-Key' : '5b4eb3dd414a427ab20765d7aae66394'
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({items : responseJson.value});
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <SearchBar />
-        <ImageList items={ITEMS}/>
+        <SearchBar onSearchSubmit = {this.onSearchSubmit.bind(this)} />
+        <ImageList items={this.state.items}/>
       </View>
     );
   }

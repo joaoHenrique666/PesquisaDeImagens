@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     ListView,
-    View
+    View,
+    Text
 } from 'react-native';
 import ImageListItem from './image_list_item';
 
@@ -9,27 +10,33 @@ export default class ImageList extends Component{
     constructor(props){
         super(props);
 
-        const ds = new ListView.DataSource({
+        const dataSource = new ListView.DataSource({
             rowHasChanged: (r1,r2) => r1 !== r2
         });
 
 
         this.state = {
-            dataSource: ds.cloneWithRows(props.items)
+            dataSource: dataSource
         };
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.items !== this.props.items){
+            this.setState({
+                dataSource:this.state.dataSource.cloneWithRows(nextProps.items)
+            })
+        }
+    }
+
     render(){
-        //const { items } = this.props;
-        const items = this.props.items;
-        //array
-        const listItems = items.map((item) => {
-            return 
-        });
+        if (this.props.items.length === 0){
+            return <Text>Carregando . . .</Text>
+        }
+
         return (
             <ListView 
                 dataSource={this.state.dataSource }
-                renderRow={item => <ImageListItem item={item} key={item.id}/>}
+                renderRow={item => <ImageListItem item={item} key={item.imageId}/>}
             />
         );
     }

@@ -15,6 +15,10 @@ export default class SearchBar extends Component{
             palavraChave: '',
         }
     }
+
+    onSubmit(){
+        this.props.onSearchSubmit(this.state.palavraChave);
+    }
     
     render(){
         return(
@@ -23,10 +27,12 @@ export default class SearchBar extends Component{
                     style={styles.caixaDeBusca}
                     value={this.state.palavraChave}
                     onChangeText={(texto) => this.setState({ palavraChave: texto})}
+                    autoCapitalize={'none'}
+                    autoCorrect={true}
                 />
                 <TouchableHighlight 
                     style={styles.botaoBuscar}
-                    onPress={() => null}
+                    onPress={() => this.onSubmit()}
                 >
                     <Text style={styles.textoDoBotao}>Buscar</Text>
                 </TouchableHighlight>

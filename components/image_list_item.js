@@ -10,10 +10,10 @@ const ImageListItem = ({ item }) => {
     return (
         <View style = {styles.item}>
             <Image 
-                source={{ uri:item.url }}
+                source={{ uri:item.thumbnailUrl }}
                 style={styles.imagem}
             />
-            <Text> {item.descricao} </Text>
+            <Text> {item.name} </Text>
         </View>
     );
 };
